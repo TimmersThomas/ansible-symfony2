@@ -1,6 +1,12 @@
 Symfony2
 ========
 
+Forked from
+------------
+The awesome [Servergroove's](https://github.com/servergrove/ansible-symfony2) ansible roles!
+
+Is doing
+------------
 Ansible role to easily deploy Symfony2 applications. It will clone a git repository, download and run composer install, and run assetic:dump when finished. The resulting directory structure is similar to what capifony creates:
 
 ```
@@ -67,4 +73,4 @@ MIT
 Author Information
 ------------------
 
-Contributions are welcome: https://github.com/servergrove/ansible-symfony2
+Contributions are welcome: [https://github.com/servergrove/ansible-symfony2](https://github.com/servergrove/ansible-symfony2)
