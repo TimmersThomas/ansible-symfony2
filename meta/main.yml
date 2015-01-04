@@ -1,8 +1,8 @@
 ---
 galaxy_info:
-  author: servergrove
-  description: 
-  company: ServerGrove
+  author: timmersthomas
+  description: A custom role for easy Symfony2 deployement. (Forked version from servergrove.Symfony2)
+  #company:
   # Some suggested licenses:
   # - BSD (default)
   # - MIT
@@ -14,7 +14,7 @@ galaxy_info:
   min_ansible_version: 1.2
   #
   # Below are all platforms currently available. Just uncomment
-  # the ones that apply to your role. If you don't see your 
+  # the ones that apply to your role. If you don't see your
   # platform on this list, let us know and we'll get it added!
   #
   #platforms:
@@ -108,7 +108,7 @@ galaxy_info:
   #- database
   #- database:nosql
   #- database:sql
-  #- development
+    - development
   #- monitoring
   #- networking
   #- packaging
@@ -119,4 +119,4 @@ dependencies: []
   # dependencies available via galaxy should be listed here.
   # Be sure to remove the '[]' above if you add dependencies
   # to this list.
-  
+
