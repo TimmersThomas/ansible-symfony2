@@ -4,3 +4,12 @@
 symfony2_project_release: 1
 symfony2_project_branch: master
 symfony2_project_php_path: php
+
+
+# defaults for node
+node_grunt_task: default
+
+# available technologies
+project_has_npm: false
+project_has_bower: false
+project_has_grunt: false

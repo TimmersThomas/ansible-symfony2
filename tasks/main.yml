@@ -38,6 +38,18 @@
 - name: Run composer install
   shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_php_path}} {{symfony2_project_root}}/composer.phar install {{symfony2_project_composer_opts}}
 
+- name: Install packages based on package.json.
+  npm: path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
+  when: project_has_npm
+
+- name: Do bower install
+  bower: path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
+  when: project_has_bower
+
+- name: Run Grunt
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && grunt {{node_grunt_task}} {{node_grunt_opts}}
+  when: project_has_grunt
+
 - name: Dump assets
   shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_php_path}} app/console assetic:dump --env={{symfony2_project_env}} {{symfony2_project_console_opts}}
 
