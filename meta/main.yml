@@ -111,7 +111,7 @@ galaxy_info:
     - development
   #- monitoring
   #- networking
-   - packaging
+    - packaging
   #- system
     - web
 dependencies: []
