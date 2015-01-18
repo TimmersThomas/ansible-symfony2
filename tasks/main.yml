@@ -43,7 +43,7 @@
   when: project_has_npm
 
 - name: Do bower install
-  bower: path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && bower install {{bower_console_opts}}
   when: project_has_bower
 
 - name: Run Grunt
