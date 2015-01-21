@@ -1,19 +1,19 @@
 ---
 # tasks file for symfony2
 - name: Create the release {{symfony2_project_release}} directory.
-  file: state=directory path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
+  file: state=directory path={{symfony2_project_root}}/releases/{{symfony2_project_release}} owner={{server_owner}} group={{server_group}}
 
 - name: Create the shared directory.
-  file: state=directory path={{symfony2_project_root}}/shared
+  file: state=directory path={{symfony2_project_root}}/shared owner={{server_owner}} group={{server_group}}
 
 - name: Create the shared/app/config directory.
-  file: state=directory path={{symfony2_project_root}}/shared/app/config
+  file: state=directory path={{symfony2_project_root}}/shared/app/config owner={{server_owner}} group={{server_group}}
 
 - name: Create the shared/web/uploads directory.
-  file: state=directory path={{symfony2_project_root}}/shared/web/uploads
+  file: state=directory path={{symfony2_project_root}}/shared/web/uploads owner={{server_owner}} group={{server_group}}
 
 - name: Create the shared/app/logs directory.
-  file: state=directory path={{symfony2_project_root}}/shared/app/logs
+  file: state=directory path={{symfony2_project_root}}/shared/app/logs owner={{server_owner}} group={{server_group}}
 
 - name: Pull sources from the repository.
   git: repo={{symfony2_project_repo}} dest={{symfony2_project_root}}/releases/{{symfony2_project_release}} version={{symfony2_project_branch}}
@@ -43,11 +43,11 @@
   when: project_has_npm
 
 - name: Do bower install
-  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && bower install {{bower_console_opts}}
+  shell: {{symfony2_project_root}}/releases/{{symfony2_project_release}}/bower install {{bower_console_opts}}
   when: project_has_bower
 
 - name: Run Grunt
-  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && grunt {{node_grunt_task}} {{node_grunt_opts}}
+  shell: {{symfony2_project_root}}/releases/{{symfony2_project_release}}/grunt {{node_grunt_task}} {{node_grunt_opts}}
   when: project_has_grunt
 
 - name: Dump assets
