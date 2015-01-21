@@ -43,11 +43,11 @@
   when: project_has_npm
 
 - name: Do bower install
-  shell: {{symfony2_project_root}}/releases/{{symfony2_project_release}}/bower install {{bower_console_opts}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && bower install {{bower_console_opts}}
   when: project_has_bower
 
 - name: Run Grunt
-  shell: {{symfony2_project_root}}/releases/{{symfony2_project_release}}/grunt {{node_grunt_task}} {{node_grunt_opts}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && grunt {{node_grunt_task}} {{node_grunt_opts}}
   when: project_has_grunt
 
 - name: Dump assets
