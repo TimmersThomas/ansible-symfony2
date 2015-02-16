@@ -35,11 +35,11 @@
 - name: Create web/uploads symlink
   file: state=link src={{symfony2_project_root}}/shared/web/uploads path={{symfony2_project_root}}/releases/{{symfony2_project_release}}/web/uploads
 
-- name: Install composer
-  get_url: url=https://getcomposer.org/composer.phar dest={{symfony2_project_root}}/composer.phar mode=0755 validate_certs=no
+#- name: Install composer
+#  get_url: url=https://getcomposer.org/composer.phar dest={{symfony2_project_root}}/composer.phar mode=0755 validate_certs=no
 
 - name: Run composer install
-  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_php_path}} {{symfony2_project_root}}/composer.phar install {{symfony2_project_composer_opts}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && composer install {{symfony2_project_composer_opts}}
 
 - name: Install packages based on package.json.
   npm: path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
