@@ -1,6 +1,4 @@
 ---
-server_owner:
-server_group:
 # defaults file for symfony2
 symfony2_project_release: 1
 symfony2_project_branch: master
@@ -9,6 +7,9 @@ symfony2_project_php_path: php
 
 # defaults for node
 node_grunt_task: default
+
+# available server settings
+server_has_composer: false
 
 # available technologies
 project_has_npm: false

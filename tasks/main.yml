@@ -10,10 +10,10 @@
   file: state=directory path={{symfony2_project_root}}/shared/app/config
 
 - name: Create the shared/web/uploads directory.
-  file: state=directory path={{symfony2_project_root}}/shared/web/uploads owner={{server_owner}} group={{server_group}}
+  file: state=directory path={{symfony2_project_root}}/shared/web/uploads
 
 - name: Create the shared/app/logs directory.
-  file: state=directory path={{symfony2_project_root}}/shared/app/logs owner={{server_owner}} group={{server_group}}
+  file: state=directory path={{symfony2_project_root}}/shared/app/logs
 
 - name: Pull sources from the repository.
   git: repo={{symfony2_project_repo}} dest={{symfony2_project_root}}/releases/{{symfony2_project_release}} version={{symfony2_project_branch}}
@@ -30,28 +30,37 @@
   file: state=link src={{symfony2_project_root}}/shared/app/logs path={{symfony2_project_root}}/releases/{{symfony2_project_release}}/app/logs
 
 - name: Create app/cache
-  file: state=directory path={{symfony2_project_root}}/releases/{{symfony2_project_release}}/app/cache owner={{server_owner}} group={{server_group}}
+  file: state=directory path={{symfony2_project_root}}/releases/{{symfony2_project_release}}/app/cache
 
 - name: Create web/uploads symlink
   file: state=link src={{symfony2_project_root}}/shared/web/uploads path={{symfony2_project_root}}/releases/{{symfony2_project_release}}/web/uploads
 
-#- name: Install composer
-#  get_url: url=https://getcomposer.org/composer.phar dest={{symfony2_project_root}}/composer.phar mode=0755 validate_certs=no
-
-- name: Run composer install
+- name: Run global composer install
   shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && composer install {{symfony2_project_composer_opts}}
+  when: server_has_composer
+
+- name: Install internal composer
+  get_url: url=https://getcomposer.org/composer.phar dest={{symfony2_project_root}}/composer.phar mode=0755 validate_certs=no
+  where : not server_has_composer
+
+- name: Run local composer install
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_root}}/composer.phar install {{symfony2_project_composer_opts}}
+  when: not server_has_composer
 
 - name: Install packages based on package.json.
   npm: path={{symfony2_project_root}}/releases/{{symfony2_project_release}}
   when: project_has_npm
 
 - name: Do bower install
-  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && bower install {{bower_console_opts}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{ bower_path }} install {{bower_install_opts}}
   when: project_has_bower
 
 - name: Run Grunt
-  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && grunt {{node_grunt_task}} {{node_grunt_opts}}
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{ grunt_path }} {{grunt_task}} {{grunt_task_opts}}
   when: project_has_grunt
+
+- name: Assets symlink
+  shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_php_path}} app/console assets:install --symlink {{symfony2_project_console_opts}}
 
 - name: Dump assets
   shell: cd {{symfony2_project_root}}/releases/{{symfony2_project_release}} && {{symfony2_project_php_path}} app/console assetic:dump --env={{symfony2_project_env}} {{symfony2_project_console_opts}}
